@@ -6,6 +6,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +20,7 @@ import { MaterialColumnSelectorComponent } from './components/material-column-se
     AppComponent,
     MaterialTableComponent,
     MatColumnResizeDirective,
-    MaterialColumnSelectorComponent
+    MaterialColumnSelectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,9 +31,10 @@ import { MaterialColumnSelectorComponent } from './components/material-column-se
     MatPaginatorModule,
     MatButtonModule,
     MatDialogModule,
+    MatCheckboxModule,
     DragDropModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

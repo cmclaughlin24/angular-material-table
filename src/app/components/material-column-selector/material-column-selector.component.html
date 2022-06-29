@@ -8,7 +8,10 @@
   >
     <ng-container *ngFor="let column of avaliableColumns">
       <li cdkDrag cdkDragLockAxis="y" class="material-column-selection-item">
-        {{ column.label }}
+        <mat-checkbox>{{ column.label }}</mat-checkbox>
+        <div class="material-column-selection-icon" cdkDragHandle>
+          <img src="/assets/icons/drag-vertical.svg" alt="Drag Icon"/>
+        </div>
       </li>
     </ng-container>
   </ul>
