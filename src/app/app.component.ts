@@ -1,7 +1,16 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialColumnSelectorComponent } from './components/material-column-selector/material-column-selector.component';
+import {
+  AVALIABLE_COLUMNS,
+  DEFAULT_COLUMNS,
+} from './constants/material-table.constants';
+import {
+  ColumnCustomizerData,
+  ColumnCustomizerEvent,
+} from './models/column-customizer.model';
 import { Customer } from './models/customer.model';
+import { DisplayColumn } from './models/display-column.model';
 
 @Component({
   selector: 'app-root',
@@ -41,10 +50,23 @@ export class AppComponent {
       cart: [],
     },
   ];
+  displayColumns: DisplayColumn[] = [...DEFAULT_COLUMNS];
 
   constructor(public dialog: MatDialog) {}
 
   columnSelectorClkHandler(): void {
-    const dialofRef = this.dialog.open(MaterialColumnSelectorComponent, {});
+    const dialofRef = this.dialog.open(MaterialColumnSelectorComponent, {
+      data: {
+        avaliableColumns: [...AVALIABLE_COLUMNS],
+        displayColumns: this.displayColumns,
+      } as ColumnCustomizerData,
+    });
+
+    dialofRef.afterClosed().subscribe((event: ColumnCustomizerEvent) => {
+      if (event.action === 'CANCEL') {
+        return;
+      }
+      this.displayColumns = event.displayColumns ? event.displayColumns : [];
+    });
   }
 }

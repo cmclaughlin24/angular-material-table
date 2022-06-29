@@ -1,7 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Inject, OnInit } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AVALIABLE_COLUMNS } from 'src/app/constants/material-table.constants';
+import {
+  ColumnCustomizerData,
+  ColumnCustomizerEvent,
+} from 'src/app/models/column-customizer.model';
 import { MaterialTableColumn } from 'src/app/models/material-table-column.model';
 
 @Component({
@@ -10,14 +14,19 @@ import { MaterialTableColumn } from 'src/app/models/material-table-column.model'
   styleUrls: ['./material-column-selector.component.scss'],
 })
 export class MaterialColumnSelectorComponent implements OnInit {
-  readonly avaliableColumns: MaterialTableColumn[] = [...AVALIABLE_COLUMNS];
+  avaliableColumns: MaterialTableColumn[];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: ColumnCustomizerData,
     public dialogRef: MatDialogRef<MaterialColumnSelectorComponent>
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.avaliableColumns = this.data.avaliableColumns.map((cl) => ({
+      ...cl,
+      active: this.data.displayColumns.some((dcl) => dcl.column === cl.column),
+    }));
+  }
 
   droppedHandler(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
@@ -27,9 +36,23 @@ export class MaterialColumnSelectorComponent implements OnInit {
     );
   }
 
-  saveClkHandler(): void {}
+  onChecked(event: MatCheckboxChange, column: string): void {
+    const columnIndex = this.avaliableColumns.findIndex(
+      (cl) => cl.column === column
+    );
+    this.avaliableColumns[columnIndex].active = event.checked;
+  }
+
+  saveClkHandler(): void {
+    const event: ColumnCustomizerEvent = {
+      action: 'SAVE',
+      displayColumns: this.avaliableColumns.filter((cl) => cl.active),
+    };
+    this.dialogRef.close(event);
+  }
 
   cancelClkHandler(): void {
-    this.dialogRef.close();
+    const event: ColumnCustomizerEvent = { action: 'CANCEL' };
+    this.dialogRef.close(event);
   }
 }
