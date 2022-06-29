@@ -10,7 +10,7 @@
       (cdkDropListDropped)="droppedHandler($event)"
     >
       <ng-container
-        *ngFor="let column of columns; let index"
+        *ngFor="let column of avaliableColumns; let index"
         [matColumnDef]="column.column"
       >
         <ng-container [ngSwitch]="column.column">

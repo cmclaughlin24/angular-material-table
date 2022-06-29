@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AVALIABLE_COLUMNS, DEFAULT_COLUMNS } from 'src/app/constants/material-table.constants';
 import { MaterialTableColumn } from 'src/app/models/material-table-column.model';
 
 @Component({
@@ -11,23 +12,14 @@ export class MaterialTableComponent implements OnInit {
   // Input Bindings.
   @Input() dataSource: any;
   @Input() total: number = 0;
+  @Input() displayColumns: string[] = DEFAULT_COLUMNS;
 
   // Output Bindings.
   @Output() sortChange = new EventEmitter<any>();
 
-  readonly columns: MaterialTableColumn[] = [
-    { column: 'firstName', label: 'First Name', field: 'firstName' },
-    { column: 'lastName', label: 'Last Name', field: 'lastName' },
-    { column: 'address', label: 'Address', field: 'contactInfo.address' },
-    { column: 'email', label: 'Email', field: 'contactInfo.email' },
-    { column: 'phoneNumber', label: 'Phone Number', field: 'contactInfo.phoneNumber' },
-    { column: 'cart', label: 'Cart', field: 'cart' },
-  ];
+  readonly avaliableColumns: MaterialTableColumn[] = AVALIABLE_COLUMNS;
   readonly pageSizeOptions: number[] = [5, 10, 25, 50];
 
-  displayColumns: string[] = this.columns.map(
-    (column: MaterialTableColumn) => column.column
-  );
   pageSize: number = 10;
   pageIndex: number = 0;
 
@@ -48,7 +40,7 @@ export class MaterialTableComponent implements OnInit {
   }
 
   columnResizeHandler(event: number, column: string): void {
-    const columnIdx = this.columns.findIndex(
+    const columnIdx = this.avaliableColumns.findIndex(
       (cl: MaterialTableColumn) => cl.column === column
     );
 
@@ -58,7 +50,7 @@ export class MaterialTableComponent implements OnInit {
       );
     }
 
-    this.columns[columnIdx].width = event;
+    this.avaliableColumns[columnIdx].width = event;
     // Todo: Implement EventEmitter to update column width.
   }
 
