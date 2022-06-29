@@ -63,7 +63,7 @@ export class AppComponent {
     });
 
     dialofRef.afterClosed().subscribe((event: ColumnCustomizerEvent) => {
-      if (event.action === 'CANCEL') {
+      if (!event || event.action === 'CANCEL') {
         return;
       }
       this.displayColumns = event.displayColumns ? event.displayColumns : [];
