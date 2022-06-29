@@ -47,6 +47,21 @@ export class MaterialTableComponent implements OnInit {
     );
   }
 
+  columnResizeHandler(event: number, column: string): void {
+    const columnIdx = this.columns.findIndex(
+      (cl: MaterialTableColumn) => cl.column === column
+    );
+
+    if (columnIdx < 0) {
+      throw new Error(
+        `Invalid Argument: column ${column} is not an avaliable column`
+      );
+    }
+
+    this.columns[columnIdx].width = event;
+    // Todo: Implement EventEmitter to update column width.
+  }
+
   getColumnValue(element: any, field: string): void {
     const error = this._validateField(field);
 

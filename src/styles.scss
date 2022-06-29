@@ -10,3 +10,19 @@ body {
   padding: 1rem 0.5rem;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.mat-header-cell {
+  position: relative;
+
+  &:not(:last-child) {
+    .mat-header-cell-resize-cursor {
+      cursor: col-resize;
+      width: 20px;
+      height: 100%;
+      position: absolute;
+      right: -10px;
+      top: 0;
+      z-index: 1;
+    }
+  }
+}

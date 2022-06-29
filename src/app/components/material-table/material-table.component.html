@@ -15,7 +15,14 @@
       >
         <ng-container [ngSwitch]="column.column">
           <ng-container *ngSwitchCase="'cart'">
-            <th mat-header-cell cdkDrag cdkDragLockAxis="x" *matHeaderCellDef>
+            <th
+              mat-header-cell
+              [appMatColumnResize]="column.width"
+              (columnResize)="columnResizeHandler($event, column.column)"
+              cdkDrag
+              cdkDragLockAxis="x"
+              *matHeaderCellDef
+            >
               {{ column.label }}
             </th>
             <td mat-cell *matCellDef="let element">
@@ -28,7 +35,8 @@
             <th
               mat-header-cell
               [mat-sort-header]="column.field"
-              appMatColumnResize
+              [appMatColumnResize]="column.width"
+              (columnResize)="columnResizeHandler($event, column.column)"
               cdkDrag
               cdkDragLockAxis="x"
               *matHeaderCellDef

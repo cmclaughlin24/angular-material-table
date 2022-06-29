@@ -15,7 +15,7 @@ export class AppComponent {
       lastName: 'Johnson',
       contactInfo: {
         address: 'McKinney, Texas',
-        email: 'heather-johnson@gmail.com',
+        email: 'heather-johnson@email.com',
         phoneNumber: '222-222-2222',
       },
       cart: [],
@@ -24,9 +24,19 @@ export class AppComponent {
       firstName: 'Curtis',
       lastName: 'McLaughlin',
       contactInfo: {
-        address: 'Austin, Texas',
-        email: 'curtis-mclaughlin@gmail.com',
+        address: 'Houston, Texas',
+        email: 'curtis-mclaughlin@email.com',
         phoneNumber: '333-333-3333',
+      },
+      cart: [],
+    },
+    {
+      firstName: 'Ben',
+      lastName: 'Mauro',
+      contactInfo: {
+        address: 'Austin, Texas',
+        email: 'ben-mauro@email.com',
+        phoneNumber: '444-444-4444',
       },
       cart: [],
     },
