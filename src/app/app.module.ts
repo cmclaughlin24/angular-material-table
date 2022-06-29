@@ -11,12 +11,14 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialTableComponent } from './components/material-table/material-table.component';
 import { MatColumnResizeDirective } from './directives/mat-column-resize.directive';
+import { MaterialColumnSelectorComponent } from './components/material-column-selector/material-column-selector.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MaterialTableComponent,
-    MatColumnResizeDirective
+    MatColumnResizeDirective,
+    MaterialColumnSelectorComponent
   ],
   imports: [
     BrowserModule,
