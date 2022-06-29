@@ -1,3 +1,4 @@
+import { DisplayColumn } from '../models/display-column.model';
 import { MaterialTableColumn } from '../models/material-table-column.model';
 
 export const AVALIABLE_COLUMNS: MaterialTableColumn[] = [
@@ -9,6 +10,8 @@ export const AVALIABLE_COLUMNS: MaterialTableColumn[] = [
   { column: 'cart', label: 'Cart', field: 'cart' },
 ];
 
-export const DEFAULT_COLUMNS: string[] = AVALIABLE_COLUMNS.map(
-  (column: MaterialTableColumn) => column.column
+export const DEFAULT_COLUMNS: DisplayColumn[] = AVALIABLE_COLUMNS.map(
+  (cl: MaterialTableColumn) => ({
+    column: cl.column
+  })
 );

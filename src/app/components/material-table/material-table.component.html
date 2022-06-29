@@ -17,7 +17,7 @@
           <ng-container *ngSwitchCase="'cart'">
             <th
               mat-header-cell
-              [appMatColumnResize]="column.width"
+              [appMatColumnResize]="getColumnWidth(column.column)"
               (columnResize)="columnResizeHandler($event, column.column)"
               cdkDrag
               cdkDragLockAxis="x"
@@ -35,7 +35,7 @@
             <th
               mat-header-cell
               [mat-sort-header]="column.field"
-              [appMatColumnResize]="column.width"
+              [appMatColumnResize]="getColumnWidth(column.column)"
               (columnResize)="columnResizeHandler($event, column.column)"
               cdkDrag
               cdkDragLockAxis="x"
@@ -49,8 +49,8 @@
           </ng-container>
         </ng-container>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
     </table>
   </div>
   <mat-paginator
