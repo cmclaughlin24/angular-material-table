@@ -1,6 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { MaterialTableColumn } from 'src/app/models/material-table-column.model';
 
 @Component({
@@ -11,6 +10,7 @@ import { MaterialTableColumn } from 'src/app/models/material-table-column.model'
 export class MaterialTableComponent implements OnInit {
   // Input Bindings.
   @Input() dataSource: any;
+  @Input() total: number = 0;
 
   // Output Bindings.
   @Output() sortChange = new EventEmitter<any>();
@@ -23,10 +23,13 @@ export class MaterialTableComponent implements OnInit {
     { column: 'phoneNumber', label: 'Phone Number', field: 'contactInfo.phoneNumber' },
     { column: 'cart', label: 'Cart', field: 'cart' },
   ];
+  readonly pageSizeOptions: number[] = [5, 10, 25, 50];
 
   displayColumns: string[] = this.columns.map(
     (column: MaterialTableColumn) => column.column
   );
+  pageSize: number = 10;
+  pageIndex: number = 0;
 
   constructor() {}
 
@@ -78,5 +81,9 @@ export class MaterialTableComponent implements OnInit {
     }
 
     return error;
+  }
+
+  pageHandler(event: any): void {
+    // Todo: Implement pageHandler method.
   }
 }

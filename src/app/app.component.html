@@ -1,1 +1,6 @@
-<app-material-table [dataSource]="customers"></app-material-table>
+<div class="app-container">
+  <app-material-table
+    [dataSource]="customers"
+    [total]="customers.length"
+  ></app-material-table>
+</div>
