@@ -1,64 +1,62 @@
-<div class="mat-elevation-z8">
-  <div class="material-table-container">
-    <table
-      mat-table
-      matSort
-      cdkDropList
-      cdkDropListOrientation="horizontal"
-      [dataSource]="dataSource"
-      (matSortChange)="sortChangeHandler($event)"
-      (cdkDropListDropped)="droppedHandler($event)"
+<div class="material-table-container">
+  <table
+    mat-table
+    matSort
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    [dataSource]="dataSource"
+    (matSortChange)="sortChangeHandler($event)"
+    (cdkDropListDropped)="droppedHandler($event)"
+  >
+    <ng-container
+      *ngFor="let column of avaliableColumns; let index"
+      [matColumnDef]="column.column"
     >
-      <ng-container
-        *ngFor="let column of avaliableColumns; let index"
-        [matColumnDef]="column.column"
-      >
-        <ng-container [ngSwitch]="column.column">
-          <ng-container *ngSwitchCase="'cart'">
-            <th
-              mat-header-cell
-              [appMatColumnResize]="getColumnWidth(column.column)"
-              (columnResize)="columnResizeHandler($event, column.column)"
-              cdkDrag
-              cdkDragLockAxis="x"
-              *matHeaderCellDef
-            >
-              {{ column.label }}
-            </th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-button color="primary" [id]="'cart-btn-' + index">
-                View Cart
-              </button>
-            </td>
-          </ng-container>
-          <ng-container *ngSwitchDefault>
-            <th
-              mat-header-cell
-              [mat-sort-header]="column.field"
-              [appMatColumnResize]="getColumnWidth(column.column)"
-              (columnResize)="columnResizeHandler($event, column.column)"
-              cdkDrag
-              cdkDragLockAxis="x"
-              *matHeaderCellDef
-            >
-              {{ column.label }}
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ getColumnValue(element, column.field) }}
-            </td>
-          </ng-container>
+      <ng-container [ngSwitch]="column.column">
+        <ng-container *ngSwitchCase="'cart'">
+          <th
+            mat-header-cell
+            [appMatColumnResize]="getColumnWidth(column.column)"
+            (columnResize)="columnResizeHandler($event, column.column)"
+            cdkDrag
+            cdkDragLockAxis="x"
+            *matHeaderCellDef
+          >
+            {{ column.label }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-button color="primary" [id]="'cart-btn-' + index">
+              View Cart
+            </button>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <th
+            mat-header-cell
+            [mat-sort-header]="column.field"
+            [appMatColumnResize]="getColumnWidth(column.column)"
+            (columnResize)="columnResizeHandler($event, column.column)"
+            cdkDrag
+            cdkDragLockAxis="x"
+            *matHeaderCellDef
+          >
+            {{ column.label }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ getColumnValue(element, column.field) }}
+          </td>
         </ng-container>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="columns"></tr>
-      <tr mat-row *matRowDef="let row; columns: columns"></tr>
-    </table>
-  </div>
-  <mat-paginator
-    showFirstLastButtons
-    [length]="total"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex"
-    [pageSizeOptions]="pageSizeOptions"
-    (page)="pageHandler($event)"
-  ></mat-paginator>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
 </div>
+<mat-paginator
+  showFirstLastButtons
+  [length]="total"
+  [pageSize]="pageSize"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="pageHandler($event)"
+></mat-paginator>

@@ -5,6 +5,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +29,7 @@ import { MaterialColumnSelectorComponent } from './components/material-column-se
     MatSortModule,
     MatPaginatorModule,
     MatButtonModule,
+    MatDialogModule,
     DragDropModule,
   ],
   providers: [],

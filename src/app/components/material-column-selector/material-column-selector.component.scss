@@ -1,0 +1,13 @@
+.material-column-selection-list {
+  list-style: none;
+  padding: 0;
+}
+
+.material-column-selection-item {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.75rem 0.5rem;
+
+  &:not(:last-child) {
+    margin-bottom: 0.75rem;
+  }
+}

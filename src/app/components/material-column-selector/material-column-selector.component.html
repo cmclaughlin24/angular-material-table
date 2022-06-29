@@ -1,1 +1,19 @@
-<p>material-column-selector works!</p>
+<h1 mat-dialog-title>Customize Columns</h1>
+<div mat-dialog-content>
+  <ul
+    class="material-column-selection-list"
+    cdkDropList
+    cdkDropListOrientation="vertical"
+    (cdkDropListDropped)="droppedHandler($event)"
+  >
+    <ng-container *ngFor="let column of avaliableColumns">
+      <li cdkDrag cdkDragLockAxis="y" class="material-column-selection-item">
+        {{ column.label }}
+      </li>
+    </ng-container>
+  </ul>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="accent" (click)="cancelClkHandler()">Cancel</button>
+  <button mat-button color="primary" (click)="saveClkHandler()">Save</button>
+</div>

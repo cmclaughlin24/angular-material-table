@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MaterialColumnSelectorComponent } from './components/material-column-selector/material-column-selector.component';
 import { Customer } from './models/customer.model';
 
 @Component({
@@ -7,8 +9,6 @@ import { Customer } from './models/customer.model';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'angular-material-table';
-
   readonly customers: Customer[] = [
     {
       firstName: 'Heather',
@@ -41,4 +41,10 @@ export class AppComponent {
       cart: [],
     },
   ];
+
+  constructor(public dialog: MatDialog) {}
+
+  columnSelectorClkHandler(): void {
+    const dialofRef = this.dialog.open(MaterialColumnSelectorComponent, {});
+  }
 }

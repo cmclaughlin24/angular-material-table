@@ -1,6 +1,15 @@
 <div class="app-container">
-  <app-material-table
-    [dataSource]="customers"
-    [total]="customers.length"
-  ></app-material-table>
+  <div class="mat-elevation-z8">
+    <div class="app-material-toolbar">
+      <div>
+        <button mat-button color="accent" (click)="columnSelectorClkHandler()">
+          Column Selector
+        </button>
+      </div>
+    </div>
+    <app-material-table
+      [dataSource]="customers"
+      [total]="customers.length"
+    ></app-material-table>
+  </div>
 </div>
