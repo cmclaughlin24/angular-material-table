@@ -11,6 +11,7 @@
       [dataSource]="customers"
       [total]="customers.length"
       [displayColumns]="displayColumns"
+      (columnChange)="columnChangeHander($event)"
     ></app-material-table>
   </div>
 </div>

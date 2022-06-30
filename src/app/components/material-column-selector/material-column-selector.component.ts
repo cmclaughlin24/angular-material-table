@@ -22,10 +22,7 @@ export class MaterialColumnSelectorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.avaliableColumns = this.data.avaliableColumns.map((cl) => ({
-      ...cl,
-      active: this.data.displayColumns.some((dcl) => dcl.column === cl.column),
-    }));
+    this._sortAvaliableColumns();
   }
 
   droppedHandler(event: CdkDragDrop<string[]>): void {
@@ -54,5 +51,16 @@ export class MaterialColumnSelectorComponent implements OnInit {
   cancelClkHandler(): void {
     const event: ColumnCustomizerEvent = { action: 'CANCEL' };
     this.dialogRef.close(event);
+  }
+
+  private _sortAvaliableColumns(): void {
+    this.avaliableColumns = [...this.data.avaliableColumns];
+    this.data.displayColumns.forEach((cl, currentIdx) => {
+      const previousIdx = this.avaliableColumns.findIndex(
+        (avl: MaterialTableColumn) => avl.column === cl.column
+      );
+      this.avaliableColumns[previousIdx].active = true;
+      moveItemInArray(this.avaliableColumns, previousIdx, currentIdx);
+    });
   }
 }

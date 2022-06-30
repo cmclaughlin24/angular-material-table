@@ -69,4 +69,8 @@ export class AppComponent {
       this.displayColumns = event.displayColumns ? event.displayColumns : [];
     });
   }
+
+  columnChangeHander(event: DisplayColumn[]): void {
+    this.displayColumns = event;
+  }
 }

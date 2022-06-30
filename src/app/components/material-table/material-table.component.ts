@@ -20,6 +20,7 @@ export class MaterialTableComponent implements OnInit {
 
   // Output Bindings.
   @Output() sortChange = new EventEmitter<any>();
+  @Output() columnChange = new EventEmitter<DisplayColumn[]>();
 
   readonly avaliableColumns: MaterialTableColumn[] = AVALIABLE_COLUMNS;
   readonly pageSizeOptions: number[] = [5, 10, 25, 50];
@@ -50,12 +51,13 @@ export class MaterialTableComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
+    this.columnChange.emit(this.displayColumns);
   }
 
   columnResizeHandler(event: number, column: string): void {
     const columnIdx = this._getColumnIndex(column);
     this.displayColumns[columnIdx].width = event;
-    // Todo: Implement EventEmitter to update column width.
+    this.columnChange.emit(this.displayColumns);
   }
 
   private _getColumnIndex(column: string): number {
