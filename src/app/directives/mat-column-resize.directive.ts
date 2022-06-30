@@ -15,10 +15,11 @@ const RESIZE_CURSOR_CSS_CLASs = 'mat-header-cell-resize-cursor';
   selector: '[appMatColumnResize]',
 })
 export class MatColumnResizeDirective implements OnInit {
-  // Todo: Add additional orginizational comments.
+  // Input Attributes.
   @Input('appMatColumnResize') width: number | undefined;
   @Input() columnIndex: number;
 
+  // Output Attributes.
   @Output() columnResize = new EventEmitter<number>();
 
   columnEl: HTMLElement;
