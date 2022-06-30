@@ -52,6 +52,11 @@ export class AppComponent {
   ];
   displayColumns: DisplayColumn[] = [...DEFAULT_COLUMNS];
 
+  readonly pageSizeOptions: number[] = [5, 10, 25, 50];
+
+  pageSize: number = 10;
+  pageIndex: number = 0;
+
   constructor(public dialog: MatDialog) {}
 
   columnSelectorClkHandler(): void {
@@ -72,5 +77,9 @@ export class AppComponent {
 
   columnChangeHander(event: DisplayColumn[]): void {
     this.displayColumns = event;
+  }
+
+  pageHandler(event: any): void {
+    // Todo: Implement pageHandler method.
   }
 }

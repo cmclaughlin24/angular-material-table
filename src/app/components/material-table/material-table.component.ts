@@ -16,7 +16,6 @@ import { MaterialTableColumn } from 'src/app/models/material-table-column.model'
 export class MaterialTableComponent implements OnInit {
   // Input Bindings.
   @Input() dataSource: any;
-  @Input() total: number = 0;
   @Input() displayColumns: DisplayColumn[] = [...DEFAULT_COLUMNS];
 
   // Output Bindings.
@@ -25,10 +24,6 @@ export class MaterialTableComponent implements OnInit {
   @Output() rowSelection = new EventEmitter<Customer>();
 
   readonly avaliableColumns: MaterialTableColumn[] = AVALIABLE_COLUMNS;
-  readonly pageSizeOptions: number[] = [5, 10, 25, 50];
-
-  pageSize: number = 10;
-  pageIndex: number = 0;
 
   constructor() {}
 
@@ -114,9 +109,5 @@ export class MaterialTableComponent implements OnInit {
 
   rowDblClkHandler(row: Customer): void {
     this.rowSelection.emit(row);
-  }
-
-  pageHandler(event: any): void {
-    // Todo: Implement pageHandler method.
   }
 }

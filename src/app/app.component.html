@@ -9,9 +9,16 @@
     </div>
     <app-material-table
       [dataSource]="customers"
-      [total]="customers.length"
       [displayColumns]="displayColumns"
       (columnChange)="columnChangeHander($event)"
     ></app-material-table>
+    <mat-paginator
+      showFirstLastButtons
+      [length]="customers.length"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="pageHandler($event)"
+    ></mat-paginator>
   </div>
 </div>
