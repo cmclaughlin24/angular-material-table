@@ -4,6 +4,7 @@ import {
   AVALIABLE_COLUMNS,
   DEFAULT_COLUMNS,
 } from 'src/app/constants/material-table.constants';
+import { Customer } from 'src/app/models/customer.model';
 import { DisplayColumn } from 'src/app/models/display-column.model';
 import { MaterialTableColumn } from 'src/app/models/material-table-column.model';
 
@@ -21,6 +22,7 @@ export class MaterialTableComponent implements OnInit {
   // Output Bindings.
   @Output() sortChange = new EventEmitter<any>();
   @Output() columnChange = new EventEmitter<DisplayColumn[]>();
+  @Output() rowSelection = new EventEmitter<Customer>();
 
   readonly avaliableColumns: MaterialTableColumn[] = AVALIABLE_COLUMNS;
   readonly pageSizeOptions: number[] = [5, 10, 25, 50];
@@ -108,6 +110,10 @@ export class MaterialTableComponent implements OnInit {
     }
 
     return error;
+  }
+
+  rowDblClkHandler(row: Customer): void {
+    this.rowSelection.emit(row);
   }
 
   pageHandler(event: any): void {
