@@ -2,8 +2,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   AVALIABLE_COLUMNS,
-  DEFAULT_COLUMNS,
+  DEFAULT_COLUMNS
 } from 'src/app/constants/material-table.constants';
+import { FabResizeEnd, FabResizeStart } from 'src/app/directives/fab-resize-column.directive';
 import { Customer } from 'src/app/models/customer.model';
 import { DisplayColumn } from 'src/app/models/display-column.model';
 import { MaterialTableColumn } from 'src/app/models/material-table-column.model';
@@ -24,6 +25,7 @@ export class MaterialTableComponent implements OnInit {
   @Output() rowSelection = new EventEmitter<Customer>();
 
   readonly avaliableColumns: MaterialTableColumn[] = AVALIABLE_COLUMNS;
+  isSortDisabled: boolean;
 
   constructor() {}
 
@@ -51,10 +53,16 @@ export class MaterialTableComponent implements OnInit {
     this.columnChange.emit(this.displayColumns);
   }
 
-  columnResizeHandler(event: number, column: string): void {
+  columnResizeStartHandler(event: FabResizeStart): void {
+    event.event.stopPropagation();
+    this.isSortDisabled = true;
+  }
+
+  columnResizeEndHandler(event: FabResizeEnd, column: string): void {
     const columnIdx = this._getColumnIndex(column);
-    this.displayColumns[columnIdx].width = event;
+    this.displayColumns[columnIdx].width = event.curWidth;
     this.columnChange.emit(this.displayColumns);
+    this.isSortDisabled = false;
   }
 
   private _getColumnIndex(column: string): number {

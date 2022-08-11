@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
   Output,
-  Renderer2,
+  Renderer2
 } from '@angular/core';
 
 const TABLE_RESIZING_CSS_CLASS = 'mat-table-resizing';
@@ -88,7 +88,11 @@ export class MatColumnResizeDirective implements OnInit {
     this.renderer.setStyle(this.columnEl, 'width', `${width}px`);
   }
 
-  private _calculateColumnWidth(startWidth: number, startPageX: number, currentPageX: number): number {
+  private _calculateColumnWidth(
+    startWidth: number,
+    startPageX: number,
+    currentPageX: number
+  ): number {
     const offset = 0;
     return startWidth + (currentPageX - startPageX - offset);
   }

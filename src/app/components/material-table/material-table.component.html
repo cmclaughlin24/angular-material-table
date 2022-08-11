@@ -16,8 +16,10 @@
         <ng-container *ngSwitchCase="'cart'">
           <th
             mat-header-cell
-            [appMatColumnResize]="getColumnWidth(column.column)"
-            (columnResize)="columnResizeHandler($event, column.column)"
+            fab-resize-column
+            [width]="getColumnWidth(column.column)"
+            (resizeStart)="columnResizeStartHandler($event)"
+            (resizeEnd)="columnResizeEndHandler($event, column.column)"
             cdkDrag
             cdkDragLockAxis="x"
             *matHeaderCellDef
@@ -34,8 +36,10 @@
           <th
             mat-header-cell
             [mat-sort-header]="column.field"
-            [appMatColumnResize]="getColumnWidth(column.column)"
-            (columnResize)="columnResizeHandler($event, column.column)"
+            fab-resize-column
+            [width]="getColumnWidth(column.column)"
+            (resizeStart)="columnResizeStartHandler($event)"
+            (resizeEnd)="columnResizeEndHandler($event, column.column)"
             cdkDrag
             cdkDragLockAxis="x"
             *matHeaderCellDef

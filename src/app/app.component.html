@@ -8,13 +8,13 @@
       </div>
     </div>
     <app-material-table
-      [dataSource]="customers"
+      [dataSource]="customers$ | async"
       [displayColumns]="displayColumns"
       (columnChange)="columnChangeHander($event)"
     ></app-material-table>
     <mat-paginator
       showFirstLastButtons
-      [length]="customers.length"
+      [length]="(customers$ | async)?.length"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       [pageSizeOptions]="pageSizeOptions"

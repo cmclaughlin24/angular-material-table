@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialTableComponent } from './components/material-table/material-table.component';
 import { MatColumnResizeDirective } from './directives/mat-column-resize.directive';
 import { MaterialColumnSelectorComponent } from './components/material-column-selector/material-column-selector.component';
+import { FabResizeColumnDirective } from './directives/fab-resize-column.directive';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MaterialColumnSelectorComponent } from './components/material-column-se
     MaterialTableComponent,
     MatColumnResizeDirective,
     MaterialColumnSelectorComponent,
+    FabResizeColumnDirective,
   ],
   imports: [
     BrowserModule,
