@@ -29,7 +29,6 @@ export class MaterialTableComponent implements OnInit {
   @Output() rowSelection = new EventEmitter<Customer>();
 
   readonly avaliableColumns: MaterialTableColumn[] = AVALIABLE_COLUMNS;
-  isSortDisabled: boolean;
 
   constructor() {}
 
@@ -45,8 +44,6 @@ export class MaterialTableComponent implements OnInit {
   }
 
   sortChangeHandler(event: Sort): void {
-    console.log('Sort Change');
-    // Bug: sortChangeHandler fired after columnResizeEndHandler because of the MouseEvent order: mousedown -> mouseup -> click
     this.sortChange.emit(event);
   }
 
@@ -60,17 +57,15 @@ export class MaterialTableComponent implements OnInit {
   }
 
   columnResizeStartHandler({ event }: FabResizeStart): void {
-    console.log('Column Resize Start');
     event.stopPropagation();
-    this.isSortDisabled = true;
   }
 
   columnResizeEndHandler({ event, curWidth }: FabResizeEnd, column: string): void {
-    console.log('Column Resize End');
     const columnIdx = this._getColumnIndex(column);
     this.displayColumns[columnIdx].width = curWidth;
     this.columnChange.emit(this.displayColumns);
-    this.isSortDisabled = false;
+    // Note: Because of MouseEvent execution order, an event listener must be added on the capture phase
+    //       to prevent bubbling MatSortHeader.
     window.addEventListener('click', this._captureClick, true);
   }
 
