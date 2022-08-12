@@ -65,7 +65,7 @@ export class MaterialTableComponent implements OnInit {
     this.displayColumns[columnIdx].width = curWidth;
     this.columnChange.emit(this.displayColumns);
     // Note: Because of MouseEvent execution order, an event listener must be added on the capture phase
-    //       to prevent bubbling MatSortHeader.
+    //       to prevent bubbling to MatSortHeader "click" listener.
     window.addEventListener('click', this._captureClick, true);
   }
 
