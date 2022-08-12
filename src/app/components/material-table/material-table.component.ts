@@ -4,7 +4,10 @@ import {
   AVALIABLE_COLUMNS,
   DEFAULT_COLUMNS
 } from 'src/app/constants/material-table.constants';
-import { FabResizeEnd, FabResizeStart } from 'src/app/directives/fab-resize-column.directive';
+import {
+  FabResizeEnd,
+  FabResizeStart
+} from 'src/app/directives/fab-resize-column.directive';
 import { Customer } from 'src/app/models/customer.model';
 import { DisplayColumn } from 'src/app/models/display-column.model';
 import { MaterialTableColumn } from 'src/app/models/material-table-column.model';
@@ -53,8 +56,8 @@ export class MaterialTableComponent implements OnInit {
     this.columnChange.emit(this.displayColumns);
   }
 
-  columnResizeStartHandler(event: FabResizeStart): void {
-    event.event.stopPropagation();
+  columnResizeStartHandler({ event }: FabResizeStart): void {
+    event.stopPropagation();
     this.isSortDisabled = true;
   }
 

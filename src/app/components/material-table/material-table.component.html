@@ -5,6 +5,7 @@
     cdkDropList
     cdkDropListOrientation="horizontal"
     [dataSource]="dataSource"
+    [matSortDisabled]="isSortDisabled"
     (matSortChange)="sortChangeHandler($event)"
     (cdkDropListDropped)="droppedHandler($event)"
   >

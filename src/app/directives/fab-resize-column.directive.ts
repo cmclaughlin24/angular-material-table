@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
 
 export interface FabResizeStart {
   event: MouseEvent | TouchEvent;
@@ -19,7 +19,7 @@ const FAB_RESIZING_CSS_CLASS = 'mat-table-resizing';
 @Directive({
   selector: '[fab-resize-column]',
 })
-export class FabResizeColumnDirective implements OnInit {
+export class FabResizeColumnDirective implements OnInit, OnChanges {
   // Input Bindings.
   @Input('fab-resize-column') disabled: boolean | undefined | "";
   @Input() width: number | undefined;
@@ -30,6 +30,7 @@ export class FabResizeColumnDirective implements OnInit {
 
   private _columnEl: ElementRef<HTMLElement>;
   private _tableEl: HTMLElement;
+  private _resizeCursor: HTMLElement;
 
   private _isPressed: boolean;
   private _startWidth: number;
@@ -48,9 +49,16 @@ export class FabResizeColumnDirective implements OnInit {
     this._setColumnWidth(this.width);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    const disabledChange = changes['disabled'];
+
+    if (disabledChange) {
+      this._toggleResizeCursor(!disabledChange.currentValue)
+    }
+  }
+
   onMouseDown = (event: MouseEvent) => {
     if (this.disabled) {
-      // Fixme: Should not display a resize cursor if disabled.
       return;
     }
     this.resizeStart.emit({ event, column: this._columnEl });
@@ -91,11 +99,11 @@ export class FabResizeColumnDirective implements OnInit {
     const thead = this.renderer.parentNode(row);
     this._tableEl = this.renderer.parentNode(thead);
 
-    const resizeCursor = this.renderer.createElement('span');
-    this.renderer.addClass(resizeCursor, FAB_RESIZE_CURSOR_CSS_CLASS);
-    this.renderer.appendChild(this._columnEl.nativeElement, resizeCursor);
+    this._resizeCursor = this.renderer.createElement('span');
+    this._toggleResizeCursor(!this.disabled);
+    this.renderer.appendChild(this._columnEl.nativeElement, this._resizeCursor);
 
-    this.renderer.listen(resizeCursor, 'mousedown', this.onMouseDown);
+    this.renderer.listen(this._resizeCursor, 'mousedown', this.onMouseDown);
     this.renderer.listen(this._tableEl, 'mousemove', this.onMouseMove);
     this.renderer.listen('document', 'mouseup', this.onMouseUp);
 
@@ -109,5 +117,15 @@ export class FabResizeColumnDirective implements OnInit {
 
   private _setColumnWidth(width: number): void {
     this.renderer.setStyle(this._columnEl.nativeElement, 'width', `${width}px`);
+  }
+
+  private _toggleResizeCursor(enabled: boolean): void {
+    if (!this._resizeCursor) {
+      return;
+    }
+
+    enabled ? 
+      this.renderer.addClass(this._resizeCursor, FAB_RESIZE_CURSOR_CSS_CLASS) :
+      this.renderer.removeClass(this._resizeCursor, FAB_RESIZE_CURSOR_CSS_CLASS)
   }
 }
