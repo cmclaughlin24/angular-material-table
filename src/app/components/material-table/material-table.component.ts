@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import {
   AVALIABLE_COLUMNS,
   DEFAULT_COLUMNS
@@ -23,7 +24,7 @@ export class MaterialTableComponent implements OnInit {
   @Input() displayColumns: DisplayColumn[] = [...DEFAULT_COLUMNS];
 
   // Output Bindings.
-  @Output() sortChange = new EventEmitter<any>();
+  @Output() sortChange = new EventEmitter<Sort>();
   @Output() columnChange = new EventEmitter<DisplayColumn[]>();
   @Output() rowSelection = new EventEmitter<Customer>();
 
@@ -43,7 +44,9 @@ export class MaterialTableComponent implements OnInit {
     return this.displayColumns[columnIdx].width;
   }
 
-  sortChangeHandler(event: any): void {
+  sortChangeHandler(event: Sort): void {
+    console.log('Sort Change');
+    // Bug: sortChangeHandler fired after columnResizeEndHandler because of the MouseEvent order: mousedown -> mouseup -> click
     this.sortChange.emit(event);
   }
 
@@ -57,15 +60,18 @@ export class MaterialTableComponent implements OnInit {
   }
 
   columnResizeStartHandler({ event }: FabResizeStart): void {
+    console.log('Column Resize Start');
     event.stopPropagation();
     this.isSortDisabled = true;
   }
 
-  columnResizeEndHandler(event: FabResizeEnd, column: string): void {
+  columnResizeEndHandler({ event, curWidth }: FabResizeEnd, column: string): void {
+    console.log('Column Resize End');
     const columnIdx = this._getColumnIndex(column);
-    this.displayColumns[columnIdx].width = event.curWidth;
+    this.displayColumns[columnIdx].width = curWidth;
     this.columnChange.emit(this.displayColumns);
     this.isSortDisabled = false;
+    window.addEventListener('click', this._captureClick, true);
   }
 
   private _getColumnIndex(column: string): number {
@@ -120,5 +126,10 @@ export class MaterialTableComponent implements OnInit {
 
   rowDblClkHandler(row: Customer): void {
     this.rowSelection.emit(row);
+  }
+
+  private _captureClick = (event: MouseEvent): void => {
+    event.stopPropagation();
+    window.removeEventListener('click', this._captureClick, true);
   }
 }
