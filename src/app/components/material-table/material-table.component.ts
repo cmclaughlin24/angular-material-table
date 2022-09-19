@@ -64,9 +64,6 @@ export class MaterialTableComponent implements OnInit {
     const columnIdx = this._getColumnIndex(column);
     this.displayColumns[columnIdx].width = curWidth;
     this.columnChange.emit(this.displayColumns);
-    // Note: Because of MouseEvent execution order, an event listener must be added on the capture phase
-    //       to prevent bubbling to MatSortHeader "click" listener.
-    window.addEventListener('click', this._captureClick, true);
   }
 
   private _getColumnIndex(column: string): number {
@@ -121,10 +118,5 @@ export class MaterialTableComponent implements OnInit {
 
   rowDblClkHandler(row: Customer): void {
     this.rowSelection.emit(row);
-  }
-
-  private _captureClick = (event: MouseEvent): void => {
-    event.stopPropagation();
-    window.removeEventListener('click', this._captureClick, true);
   }
 }

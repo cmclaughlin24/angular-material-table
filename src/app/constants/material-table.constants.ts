@@ -12,6 +12,7 @@ export const AVALIABLE_COLUMNS: MaterialTableColumn[] = [
 
 export const DEFAULT_COLUMNS: DisplayColumn[] = AVALIABLE_COLUMNS.map(
   (cl: MaterialTableColumn) => ({
-    column: cl.column
+    column: cl.column,
+    width: Math.random() * 1000
   })
 );

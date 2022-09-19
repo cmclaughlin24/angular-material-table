@@ -31,12 +31,12 @@ const FAB_RESIZING_CSS_CLASS = 'mat-table-resizing';
 })
 export class FabResizeColumnDirective implements OnInit, OnChanges {
   // Input Bindings.
-  @Input('fab-resize-column') disabled: boolean | undefined | "";
+  @Input('fab-resize-column') disabled: boolean | undefined | '';
   @Input() width: number | undefined;
 
   // Output Bindings.
-  @Output() resizeStart = new EventEmitter<FabResizeStart>;
-  @Output() resizeEnd = new EventEmitter<FabResizeEnd>;
+  @Output() resizeStart = new EventEmitter<FabResizeStart>();
+  @Output() resizeEnd = new EventEmitter<FabResizeEnd>();
 
   private _columnEl: ElementRef<HTMLElement>;
   private _tableEl: HTMLElement;
@@ -53,17 +53,18 @@ export class FabResizeColumnDirective implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this._addEventListeners();
-    if (this.width == null || this.width === 0) {
-      return;
-    }
-    this._setColumnWidth(this.width);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const disabledChange = changes['disabled'];
+    const widthChange = changes['width'];
 
     if (disabledChange) {
-      this._toggleResizeCursor(!disabledChange.currentValue)
+      this._toggleResizeCursor(!disabledChange.currentValue);
+    }
+
+    if (widthChange && this._hasWidthChange(widthChange.currentValue)) {
+      this._setColumnWidth(widthChange.currentValue);
     }
   }
 
@@ -91,16 +92,19 @@ export class FabResizeColumnDirective implements OnInit, OnChanges {
   };
 
   onMouseUp = (event: MouseEvent) => {
-    if(!this._isPressed) {
+    if (!this._isPressed) {
       return;
     }
     this._isPressed = false;
     this.renderer.removeClass(this._tableEl, FAB_RESIZING_CSS_CLASS);
+    // Note: Because of MouseEvent execution order, an event listener must be added on the capture phase
+    //       to prevent bubbling to MatSortHeader "click" listener.
+    window.addEventListener('click', this._captureClick, true);
     this.resizeEnd.emit({
       prevWidth: this._startWidth,
       curWidth: this._finalWidth,
       event: event,
-      column: this._columnEl
+      column: this._columnEl,
     });
   };
 
@@ -120,7 +124,11 @@ export class FabResizeColumnDirective implements OnInit, OnChanges {
     // Fixme: Should add touch event listeners for tablet devices?
   }
 
-  private _calculateColumnWidth(startWidth: number, startPageX: number, currentPageX: number): number {
+  private _calculateColumnWidth(
+    startWidth: number,
+    startPageX: number,
+    currentPageX: number
+  ): number {
     // Fixme: Decide if offset is required for calculation.
     return startWidth + (currentPageX - startPageX);
   }
@@ -134,8 +142,21 @@ export class FabResizeColumnDirective implements OnInit, OnChanges {
       return;
     }
 
-    enabled ? 
-      this.renderer.addClass(this._resizeCursor, FAB_RESIZE_CURSOR_CSS_CLASS) :
-      this.renderer.removeClass(this._resizeCursor, FAB_RESIZE_CURSOR_CSS_CLASS)
+    enabled
+      ? this.renderer.addClass(this._resizeCursor, FAB_RESIZE_CURSOR_CSS_CLASS)
+      : this.renderer.removeClass(
+          this._resizeCursor,
+          FAB_RESIZE_CURSOR_CSS_CLASS
+        );
   }
+
+  private _hasWidthChange(width: number): boolean {
+    // Todo: Improve performance of directive by comparing current and previous width for equality.
+    return width != null && width > 0;
+  }
+
+  private _captureClick = (event: MouseEvent): void => {
+    event.stopPropagation();
+    window.removeEventListener('click', this._captureClick, true);
+  };
 }
